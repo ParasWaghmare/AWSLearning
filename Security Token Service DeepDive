@@ -1,0 +1,81 @@
+AWS Security Token Service (STS) Deep Dive
+Introduction to AWS Security Token Service (STS)
+
+STS is a crucial AWS service that enables assuming roles across different accounts or within the same account. It also facilitates identity federation, allowing users or services to impersonate IAM roles temporarily.
+
+First, define an IAM role within your accounts or across accounts that you want to assume. Then specify which principals can access this IAM role. Using the STS service, which stands for Security Token Service, you retrieve temporary credentials. These credentials allow you to impersonate the IAM role you have access to by using the AssumeRole API. The credentials are temporary, lasting between 15 minutes to 12 hours.
+STS AssumeRole Workflow
+
+    A user wants to access a role within the same or another account.
+    The user calls the AssumeRole API on STS.
+    STS verifies permissions and setup correctness.
+    STS returns temporary security credentials.
+    The user uses these credentials to access the target role.
+
+Use Cases for Assuming Roles with STS
+
+    Providing access to an IAM user in your AWS account or other accounts you own.
+    Granting third-party IAM users access to your account.
+    Allowing AWS services to perform actions using service roles.
+    Performing identity federation (covered in detail later in the course).
+
+STS supports revoking active sessions and credentials for a role by modifying the policy with a time condition or using the AWSRevokeOlderSessions managed policy. This feature adds an extra level of security by disabling role usage when necessary.
+
+When assuming a role via STS, the original permissions are relinquished, and the permissions assigned to the role are adopted. This intermediary step enhances security and auditing capabilities, such as through CloudTrail logs.
+Example: Providing Access to IAM Users Within Your Accounts
+
+    Create a role in Account A (or another account you own) to terminate EC2 instances.
+    Explicitly grant users permission to assume this role.
+    Users switch to this role via the Management Console, CLI, or AssumeRole API.
+    Optionally enforce multi-factor authentication (MFA) for role assumption.
+
+This pattern enforces least privilege and improves security through role assumption and auditing.
+STS Cross-Account Access Example
+
+    Production account has an S3 bucket.
+    Development account has groups like testers and developers.
+    Admin in production creates a role granting development account read/write access to the production S3 bucket.
+    Developers in the development account are granted permission to assume this role.
+    Developers use STS to obtain temporary credentials and access the S3 bucket.
+
+This setup enables secure cross-account access using STS roles.
+Granting Access to Third-Party AWS Accounts Using External ID
+
+    Your zone of trust includes accounts and organizations you own.
+    Third-party accounts lie outside this zone.
+    To grant third parties access, obtain their AWS account ID.
+    Define an external ID, a secret shared between you and the third party.
+    The external ID must be provided when defining the trust policy and when assuming the role.
+    This ensures only the intended third party can assume the role, enhancing security.
+
+The Confused Deputy Problem and External ID Protection
+
+    Without an external ID, a malicious third party can trick a trusted intermediary into assuming a role in your account unintentionally.
+    This occurs because the intermediary cannot verify which role ARN it is assuming.
+    The external ID acts as a secret token that the trusted intermediary must provide when assuming the role.
+    If the external ID does not match, the role assumption is denied.
+
+This mechanism prevents the confused deputy attack by uniquely associating roles with trusted third parties.
+Using Session Tags in STS
+
+    When assuming an IAM role or federating users via STS, you can pass session tags.
+    For example, passing a tag like Department=HR during the AssumeRole API call.
+    STS returns temporary credentials with these session tags.
+    IAM policies can use the aws:PrincipalTag condition to restrict access based on these tags.
+    This enables fine-grained access control based on user attributes during federation.
+
+Important STS APIs to Know
+
+    AssumeRole: Access a role within your account or across accounts.
+    AssumeRoleWithSAML: Obtain credentials when federated with SAML.
+    AssumeRoleWithWebIdentity: Obtain credentials using an identity provider (IdP) such as Amazon Cognito, Facebook, Google, or OpenID Connect-compatible IdPs. Note: AWS recommends using Cognito instead of this API.
+    GetSessionToken: Used for MFA authentication to get temporary credentials.
+    GetFederationToken: Used to get temporary credentials when federating via a proxy application within a corporate network.
+
+The first four APIs are the most important for exam preparation.
+Key Takeaways
+
+    AWS Security Token Service (STS) allows assuming IAM roles across accounts with temporary credentials.
+    STS credentials are temporary, lasting between 15 minutes and 12 hours, enhancing security.
+    External IDs prevent the "confused deputy" attack by uniquely associating roles with third-party accounts.
+    Session tags in STS enable fine-grained access control based on user attributes during federation.
