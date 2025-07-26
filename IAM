@@ -1,0 +1,119 @@
+IAM
+Introduction to IAM
+
+Let's get started with IAM. There are many concepts you should already know about IAM. I will not cover the basics but will remind you of key points.
+
+Users have long-term credentials and are AWS users. You can group users and define roles, which provide short-term credentials. The STS service endorses these roles to generate temporary credentials that allow actions authorized by the roles.
+
+A specific role commonly seen is the EC2 instance role. It uses the EC2 metadata service to obtain short-term credentials on an EC2 instance. Only one role can be assigned to an instance at a time. This allows the instance to access resources such as S3 buckets or DynamoDB tables.
+
+There are also service roles assigned directly to services. For example, API Gateway or CodeDeploy may need to perform actions on an Auto Scaling Group or Lambda function. These services require roles provisioned with the necessary permissions.
+
+Finally, there are Cross Account roles, which are useful when accessing another AWS account to perform actions. User credentials are never shared across accounts; instead, roles are assumed. This will be covered in detail in this course.
+IAM Policies
+
+IAM policies define what a user or role can do. There are three types:
+
+    AWS Managed: Policies defined by AWS that may change over time and provide specific permissions.
+    Customer Managed: Policies created by you, assignable to multiple users or roles, and versionable.
+    Inline Policies: Policies assigned to a single user or role, not shareable across entities but can evolve over time.
+
+Additionally, there are resource-based policies such as S3 bucket policies or SQS queue policies. These enable interesting access patterns, which will be explored in this lecture.
+Structure of an IAM Policy
+
+An IAM policy is a JSON document containing several elements:
+
+    Effect
+    Action
+    Resource
+    Condition
+    Sometimes Policy Variables
+
+For example, a policy statement might allow EC2 attach and detach volume actions on all EC2 instances, but only if the resource is tagged with department: development. This allows very specific permissions.
+
+Explicit DENY statements in IAM policies always take precedence over any ALLOW statements. This means explicit DENYs have the highest priority in permission evaluation.
+Best Practices and Tools
+
+The best practice is to use least privilege for maximum security. IAM policies should only allow the necessary actions and nothing more.
+
+Tools to help enforce this include:
+
+    IAM Access Advisor: Shows permissions granted to a policy and the last time each permission was accessed. Unused permissions can be removed.
+    Access Analyzer: Analyzes resource sharing with external entities, such as S3 buckets, to identify unexpected access.
+
+If you are unfamiliar with IAM policies, it is recommended to review examples at the AWS documentation URL provided in the lecture to better understand their structure and usage.
+Common IAM Policies
+
+    AdministratorAccess: Allows all actions on all resources. By default, if no policy is set, everything is denied. Adding a statement with "Effect": "Allow", "Action": "", "Resource": "" grants full administrator access. AWS provides this as a managed policy.
+
+    AWS PowerUserAccess: A less privileged policy that denies actions on IAM, Organizations, and Account services but allows other actions. It uses "NotAction" to exclude certain actions rather than explicit deny, allowing coexistence with explicit allows.
+
+The use of "NotAction" instead of "Effect": "Deny" allows explicit allows to coexist with exclusions, avoiding conflicts where explicit denies would override allows.
+IAM Policy Conditions
+
+Conditions in IAM policies consist of an operator, a key, and a value. They enable fine-grained control such as:
+
+    String operators (e.g., requiring a principal tag to be "job category: IAM user admin")
+    Numeric operators (equal, greater than, less than)
+    Date comparisons (useful for temporary access)
+    Boolean checks (e.g., SecureTransport: true for SSL enforcement)
+    MFA presence
+    IP address restrictions (e.g., source IP within a CIDR block)
+    ARN matching (ArnEquals, ArnLike)
+    Null checks
+
+You do not need to memorize all conditions but knowing they exist allows you to create very specific IAM policies, which can be useful for exam scenarios or real-world applications.
+Policy Variables and Tags
+
+Policy variables are powerful and include:
+
+    $${aws:username}: Commonly used in S3 bucket policies to allow users access only to their own directory prefix.
+    AWS-specific variables such as CurrentTime, TokenIssueTime, principal type, SecureTransport, source IP, user ID, source instance ARN.
+    Service-specific variables for services like S3, SNS.
+    Tag-based variables such as resource tag or principal tag with specific keys.
+
+These enable dynamic and context-aware policies.
+IAM Roles vs Resource-Based Policies
+
+There is a clear difference between IAM roles and resource-based policies:
+
+    IAM Roles: When a user, application, or service assumes a role, they give up their original permissions and take on the permissions assigned to the role.
+
+    Resource-Based Policies: The principal does not give up any permissions. Instead, the resource policy grants access directly to the principal.
+
+Example
+
+A user in Account A wants to access an S3 bucket in Account B. Two options:
+
+    Assume a role in Account B with the necessary permissions.
+    Use an S3 bucket policy in Account B granting access to the user in Account A.
+
+Both allow access, but role assumption replaces permissions, while resource-based policies do not.
+Use Case for Resource-Based Policies
+
+Consider a user in Account A who needs to scan a DynamoDB table in Account A and dump the content into an S3 bucket in Account B. This requires:
+
+    An IAM role in Account A to access DynamoDB.
+    A resource-based policy on the S3 bucket in Account B to allow access.
+
+Resource-based policies are supported by many AWS services including S3, SNS, SQS, Lambda, ECR, Backup, EFS, Glacier, and Cloud9.
+IAM Permission Boundaries
+
+Permission boundaries are an advanced feature supported for users and roles (not groups). They set the maximum permissions an IAM entity can have.
+Example
+
+If a permission boundary allows only S3, CloudWatch, and EC2 actions, but the identity-based policy allows IAM create user, the effective permissions are none because the permission boundary restricts actions to the specified services.
+
+Permission boundaries can also be used with AWS Organizations Service Control Policies (SCPs). The effective permissions are the intersection of SCPs, permission boundaries, and identity-based policies.
+
+Permission boundaries are useful to delegate responsibility to non-administrators within defined limits, such as allowing developers to create IAM users or manage their own permissions without privilege escalation. They also allow restricting specific users rather than entire accounts via Organizations SCPs.
+Conclusion
+
+This concludes the overview of IAM. Hopefully, you are familiar with most of these concepts. We will continue with more detailed lectures.
+Key Takeaways
+
+    IAM uses long-term credentials for users and short-term credentials for roles, with STS endorsing roles for temporary access.
+    IAM policies define permissions and come in AWS Managed, Customer Managed, and Inline types, with explicit DENY taking precedence over ALLOW.
+    Conditions and policy variables enable fine-grained access control, including tag-based and time-based restrictions.
+    Resource-based policies differ from role assumption by allowing access without relinquishing original permissions, useful for cross-account access.
+    IAM permission boundaries set maximum permissions for users or roles, enabling delegated administration without privilege escalation.
