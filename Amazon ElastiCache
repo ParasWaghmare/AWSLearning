@@ -1,0 +1,35 @@
+ElastiCache
+Introduction to Amazon ElastiCache
+
+ElastiCache is a managed service offering Redis or Memcached on Amazon Web Services. It is similar to Amazon RDS but specifically designed for caching technologies.
+What is a Cache?
+
+A cache is an in-memory data store that provides sub-millisecond latency when reading data. To use ElastiCache, you must provision an ElastiCache instance type for your cache, and then you are ready to go.
+Features of ElastiCache with Redis
+
+If you use Redis with ElastiCache, you can benefit from features such as Clustering, Multi-AZ deployments, and Read Replicas for sharding. Security is provisioned through IAM policies, security groups, and KMS for at-rest encryption. Redis Authentication is also supported.
+
+Additionally, ElastiCache offers features similar to RDS, including backups, snapshots, and point-in-time restore. Managed and scheduled maintenance is also provided.
+Important Considerations for Using ElastiCache
+
+The most important point to remember, especially for the exam, is that when you decide to use Amazon ElastiCache to perform caching on top of or in combination with an RDS database, you need to modify your application code to leverage ElastiCache.
+
+Therefore, if the exam question asks for a caching solution that does not require any code changes, ElastiCache is not the appropriate choice.
+Use Cases for ElastiCache
+
+ElastiCache is well suited for use cases such as:
+
+    Key/Value stores.
+    Frequent read operations on top of your database, making it good for caching database queries.
+    Storing session data for users on your website.
+
+It is important to note that you cannot use SQL queries on ElastiCache.
+Conclusion
+
+That concludes this lecture on Amazon ElastiCache. I hope you found it informative. See you in the next lecture.
+Key Takeaways
+
+    Amazon ElastiCache is a managed Redis or Memcached service for caching on AWS.
+    It provides sub-millisecond latency by using in-memory data stores.
+    ElastiCache requires modifying application code to leverage caching.
+    It is suitable for caching database queries and storing session data but does not support SQL queries.
