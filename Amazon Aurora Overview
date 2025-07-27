@@ -1,0 +1,39 @@
+Amazon Aurora Overview
+Summary of Amazon Aurora
+
+Amazon Aurora is a compatible API service for two database engines: PostgreSQL and MySQL. It is a unique service because it separates storage and compute components.
+Storage Architecture
+
+The data in Aurora is stored in six replicas distributed across three Availability Zones by default. This configuration cannot be changed, ensuring high availability. Additionally, Aurora has a self-healing process that operates behind the scenes to address any storage issues. Storage capacity can be increased automatically through built-in auto-scaling.
+Compute Architecture
+
+The compute layer consists of database instances that are clustered. These instances can be deployed across multiple Availability Zones if desired. Read replicas can be auto-scaled to increase capacity when the load increases.
+Endpoints and Access
+
+Because the database instances form a cluster, Aurora provides custom endpoints to direct traffic appropriately. There is a writer endpoint for write operations and a reader endpoint for read operations. Aurora maintains the same security, monitoring, and maintenance features as Amazon RDS, as they use similar underlying engines.
+Backup and Restore
+
+Aurora offers backup and restore options, which are detailed in a dedicated lecture. It is recommended to review that material for comprehensive understanding.
+Additional Features of Aurora
+
+Aurora includes several advanced features to support various use cases:
+
+    Aurora Serverless: Designed for unpredictable and intermittent workloads, this feature eliminates the need for capacity planning.
+
+    Aurora Global Database: Supports up to 16 read instances per region across replicated regions. Storage replication typically occurs in less than one second across regions, which is important for exam considerations. In case of failure in the primary region, a secondary region can be promoted to primary.
+
+    Aurora Machine Learning: Enables integration with SageMaker and Comprehend for machine learning capabilities on top of Aurora.
+
+    Aurora Database Cloning: Allows creation of a new Aurora cluster from an existing one for testing or staging purposes. This process is significantly faster than creating a snapshot and restoring it.
+
+Use Cases
+
+Aurora shares similar use cases with Amazon RDS but offers less maintenance, greater flexibility, improved performance, and additional features out of the box, making it an excellent choice for many database workloads.
+
+This concludes the summary of Amazon Aurora.
+Key Takeaways
+
+    Amazon Aurora supports PostgreSQL and MySQL compatible APIs.
+    Storage and compute are separated, with storage replicated six times across three Availability Zones for high availability.
+    Compute instances are clustered and can be scaled with read replicas and custom writer and reader endpoints.
+    Aurora offers features like Serverless for unpredictable workloads, Global Database for multi-region replication, Machine Learning integration, and fast Database Cloning.
