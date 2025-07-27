@@ -1,0 +1,67 @@
+Choosing the Right Database
+Introduction to Choosing the Right Database
+
+In this section, we provide a quick introduction to selecting the appropriate database for your workload. At the exam, you will need to choose the right database from many managed options available on AWS. The decision primarily depends on the architecture and requirements posed by the question.
+Key Considerations for Database Selection
+
+When choosing a database, consider the following factors:
+
+    Is the workload write-heavy, read-heavy, or balanced?
+    Will the workload change or fluctuate during the day?
+    How much data will be stored and for how long?
+    Will the data grow over time?
+    What is the average object size?
+    How often and in what manner will the data be accessed?
+    What are the data durability requirements?
+    What is the source of truth for your data?
+    Are there latency requirements?
+    How many concurrent users will access the database?
+    What is the data model?
+    How will you query the data? Are joins needed?
+    Is the data structured or semi-structured?
+    Do you require a strong schema or more flexibility?
+    Will you include reporting on top of your database?
+    Do you need search capabilities?
+    Do you prefer a relational database or NoSQL?
+    Are there any licensing costs?
+    Do you want to switch to cloud-native databases such as Aurora?
+
+Approach to Answering Database Selection Questions
+
+Based on the question, your answer will vary. This overview provides the dimensions and avenues the questions may explore to help you choose the right database. We will examine all the different databases in this section and summarize them for clarity.
+Relational Database Management Systems (RDBMS)
+
+RDBMS databases use SQL and are suitable for online transaction processing (OLTP). Examples include Amazon RDS and Aurora. These databases are excellent if you need to perform joins. We will explore these databases in depth, so you do not need to memorize everything now.
+NoSQL Databases
+
+NoSQL databases offer more flexibility but generally lack join capabilities and do not use SQL query language, with some exceptions. Examples include DynamoDB, ElastiCache, Neptune, DocumentDB, and Keyspaces. We will discuss each of these databases individually in this section.
+Object Store
+
+Object stores are a type of database suitable for storing large objects. Amazon S3 is commonly used for this purpose, and Glacier is used for backups and archives.
+Data Warehousing
+
+Data warehousing solutions support SQL for analytics and business intelligence (BI). Examples include Amazon Redshift, which is an OLAP database, Athena, and EMR.
+Search Databases
+
+Search databases like OpenSearch enable free-text and unstructured searches on your data.
+Graph Databases
+
+Graph databases display relationships between datasets. Amazon Neptune is an example of a graph database.
+Ledger Databases
+
+Ledger databases maintain a list and ledger of transactions. Amazon Quantum Ledger Database (QLDB) is an example.
+Time Series Databases
+
+Time series databases are designed for time-stamped data. Amazon Timestream is an example.
+Additional Notes
+
+There may be more database types and services included in this section if necessary. If some databases are not discussed here, they will be covered in depth in the following data and analytics section.
+Conclusion
+
+This overview provides the foundation for understanding the variety of databases available on AWS. You do not need to memorize this information now; it is intended to give context for the upcoming detailed discussions on each database type.
+Key Takeaways
+
+    Choosing the right database depends on workload characteristics such as read/write balance, data size, growth, and latency requirements.
+    Consider data model, query needs, schema flexibility, and whether relational or NoSQL databases are appropriate.
+    AWS offers a variety of managed databases including RDBMS (RDS, Aurora), NoSQL (DynamoDB, ElastiCache, Neptune, DocumentDB, Keyspaces), object stores, data warehousing (Redshift, Athena, EMR), search (OpenSearch), graph (Neptune), ledger (QLDB), and time series (Timestream).
+    Detailed understanding of each database type will be covered in subsequent sections; this overview sets the foundation for making informed choices.
