@@ -1,0 +1,81 @@
+AWS Key Management Service (KMS) Overview
+Introduction to AWS KMS
+
+AWS KMS stands for Key Management Service. Whenever you hear about encryption in AWS, you should think about KMS. It is a service that allows easy control over access to data, with AWS managing the encryption keys on your behalf. KMS is fully integrated with IAM for authorization and seamlessly integrates with almost all AWS services such as EBS, S3, Redshift, RDS, and SSM. Interaction with KMS can be done through the CLI or SDK.
+Types of KMS Keys
+
+In KMS, there are two types of keys:
+
+    Symmetric keys: These were the first type offered by KMS. They use a single encryption key for both encrypting and decrypting information. All AWS services integrated with KMS use symmetric keys. Symmetric keys are necessary for envelope encryption. Importantly, you never get direct access to the unencrypted KMS key; instead, you send data to KMS via API calls to use the key.
+
+    Asymmetric keys: These are newer and consist of a key pair: a public key and a private key. The public key is used to encrypt data, and the private key is used to decrypt it. This is useful for encrypt, decrypt, or sign and verify operations. The public key can be downloaded and shared even in untrusted environments, but only the private key can decrypt the data. However, you cannot use the private key unencrypted; you must use KMS API calls.
+
+Use Cases for Asymmetric Keys
+
+Asymmetric keys are particularly helpful when encryption needs to be performed outside of AWS by users who cannot directly call the KMS API. The public key can be distributed freely, allowing encryption from anywhere, while decryption remains secure within KMS using the private key.
+Types of KMS Keys by Management
+
+There are three types of KMS keys based on management:
+
+    Customer-managed keys: These are keys you create directly in KMS. You can create, manage, enable, disable, and set rotation policies (typically yearly) while preserving old keys. You can add key policies (resource policies for KMS keys) and audit key usage in CloudTrail. These keys are used for envelope encryption and are managed by you.
+
+    AWS-managed keys: These keys are used exclusively by AWS services such as aws/s3 and aws/ebs. They are managed by AWS and automatically rotated every year. You can view their key policies and audit usage in CloudTrail, but you cannot use them for your own encryption operations.
+
+    AWS-owned keys: These keys are created and managed by AWS internally and used by some services to protect resources. They can be used across multiple AWS accounts but are not visible or accessible to you. You cannot view, use, track, or audit these keys, though AWS informs you of their existence.
+
+Summary of Key Management Types
+
+| Key Type | Manageable by User | Used for Own Account | Rotation Control | Viewable & Auditable | |--------------------|-------------------|---------------------|-----------------------|---------------------| | Customer-managed | Yes | Yes | Automatic & On-demand | Yes | | AWS-managed | No | Yes | Automatic (Yearly) | Yes | | AWS-owned | No | No | Managed by AWS | No |
+Creating a KMS Key: Key Material Origin
+
+When creating a KMS key, you must specify the key material origin, which cannot be changed later. The options are:
+
+    KMS: KMS automatically creates, generates, and manages the key material in its own key store.
+    External: You import key material directly into KMS and are responsible for securing and managing it outside AWS.
+    Custom key store (AWS_CLOUDHSM): Key material is created and managed within your own CloudHSM cluster, integrated directly with KMS.
+
+Custom Key Store with CloudHSM
+
+When using a custom key store backed by CloudHSM:
+
+    You create a CloudHSM cluster across at least two Availability Zones for high availability.
+    The cluster integrates directly with KMS.
+    KMS creates keys whose key material is stored in your HSM cluster.
+    Cryptographic operations are performed within the HSMs.
+    Users interact with KMS API as usual, but keys are securely stored and managed in your HSM cluster.
+
+This setup is useful when you require direct control over HSMs for enhanced security or compliance reasons.
+External Key Material Import Process
+
+When using external key material:
+
+    Create a KMS key with the origin set to external. The key envelope is created, but key material is not.
+    Download the public key and an import token from KMS.
+    Use the public key to encrypt your externally generated key material.
+    Send the encrypted key material back to KMS along with the import token.
+    KMS decrypts the key material and stores it securely in the KMS key.
+
+Note that automated key rotation is not supported for external key material; you must manage rotation yourself.
+Multi-Region KMS Keys
+
+KMS supports multi-region keys, allowing you to create a key in one region (e.g., US East 1) and replicate it across multiple regions. These replicated keys share the same key material and key ID but reside in different regions.
+
+Benefits include:
+
+    Encrypt data in one region and decrypt in another using the same KMS key ID.
+    Avoid re-encrypting data or making cross-region API calls.
+    Keys have the same automatic rotation and policies.
+
+However, these keys are not global keys. There is a primary key in one region and replicas in others. Each key can be managed independently, and you can promote a replica to primary if needed.
+
+Use cases include disaster recovery, global data management (e.g., DynamoDB Global Tables), active-active applications spanning multiple regions, and distributed signing applications.
+Conclusion
+
+This concludes the lecture on AWS KMS. We covered the types of keys, key management options, key material origins, custom key stores, external key import, and multi-region keys. These features provide flexible and secure key management options for various AWS encryption needs.
+Key Takeaways
+
+    AWS KMS (Key Management Service) manages encryption keys and integrates with IAM and various AWS services.
+    KMS supports symmetric keys (single key for encryption and decryption) and asymmetric keys (public/private key pairs).
+    There are three types of KMS keys: customer-managed, AWS-managed, and AWS-owned, each with different management and usage scopes.
+    KMS supports key material origins: KMS-generated, external imported keys, and custom key stores backed by CloudHSM for enhanced security.
+    Multi-region keys allow replication of the same key material across regions for disaster recovery and global data management.
