@@ -1,0 +1,64 @@
+Amazon S3 Overview from a Database Perspective
+Summary of Amazon S3 from a Database Perspective
+
+Amazon S3 is a key-value store designed for objects. It excels when storing large objects but is less efficient for many small objects. Being serverless, it offers infinite scaling capabilities. The maximum object size supported is five terabytes, and it supports versioning to track object changes over time.
+Storage Tiers and Lifecycle Management
+
+Amazon S3 provides different storage tiers including S3 Standard, Infrequent Access, Intelligent Tiering, and Glacier. Lifecycle policies enable automatic transitions between these tiers based on your data management needs.
+Key Features
+
+Important features to be aware of include:
+
+    Versioning
+    Encryption
+    Replication
+    Multi-factor Authentication (MFA) deletes
+    Access logs
+
+Security Mechanisms
+
+Security in Amazon S3 is managed through IAM policies, bucket policies, Access Control Lists (ACLs), and Access Points. Additionally, MFA deletes provide an extra layer of protection against accidental or malicious deletions.
+Advanced Features
+
+    S3 Object Lambda allows modification of objects before they are delivered to applications.
+    Cross-Origin Resource Sharing (CORS) enables controlled access to resources from different origins.
+    Object Lock and Vault Lock for Glacier provide compliance and data retention capabilities.
+
+Encryption Options
+
+Amazon S3 supports various encryption mechanisms:
+
+    SSE-S3 (Server-Side Encryption with S3 Managed Keys)
+    SSE-KMS (Server-Side Encryption with AWS KMS keys, including customer-managed keys)
+    SSE-C (Server-Side Encryption with Customer-Provided Keys)
+    Client-side encryption
+    TLS encryption for data in transit
+
+You can also set a default encryption scheme for your S3 buckets.
+Batch Operations and Inventory
+
+S3 Batch Operations enable you to perform large-scale batch actions on objects, such as encrypting unencrypted objects or copying files between buckets before enabling replication. To create lists of objects for these operations, you can use S3 Inventory.
+Performance Enhancements
+
+To improve performance, Amazon S3 offers:
+
+    Multi-part upload for parallel file uploads
+    Transfer Acceleration to speed up transfers between regions
+    S3 Select to retrieve only the data you need from objects
+
+Automation with Event Notifications
+
+Amazon S3 supports event notifications that integrate with SNS, SQS, Lambda, and EventBridge. This allows you to react automatically to events such as new object creation in your buckets.
+Use Cases
+
+Amazon S3 is commonly used for storing static files, serving as a key-value store for large files, and hosting websites.
+
+If you have any doubts about these features, especially since they can appear on exams, it is recommended to review the Amazon S3 section in detail.
+Key Takeaways
+
+    Amazon S3 is a serverless key-value object store optimized for large objects, with a maximum object size of five terabytes.
+    It supports versioning, multiple storage tiers, encryption options, and lifecycle policies for managing data.
+    Security features include IAM, bucket policies, ACLs, Access Points, MFA deletes, and encryption both at rest and in transit.
+    Performance enhancements include multi-part uploads, transfer acceleration, and S3 Select for retrieving specific data.
+    Automation is enabled through event notifications integrated with SNS, SQS, Lambda, and EventBridge.
+    Common use cases include storing static files, large objects, and website hosting.
