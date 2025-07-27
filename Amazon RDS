@@ -1,0 +1,46 @@
+Amazon RDS
+Summary of Amazon RDS
+
+This section provides a summary of the key concepts learned about Amazon RDS. For detailed explanations, it is recommended to revisit the previous lectures. This summary highlights the essential points you should know about Amazon RDS.
+
+Amazon RDS is a managed service supporting several database engines including PostgreSQL, MySQL, Oracle, SQL Server, DB2, MariaDB, and a custom version of RDS.
+
+When using Amazon RDS, you need to provision an RDS instance size as well as an EBS volume type and size. Although provisioning is required, there is auto-scaling capability available for the storage layer.
+
+Amazon RDS supports read replicas to scale read capabilities. If applications need to run analytics against a production database, it is preferable to create a read replica to offload those queries.
+
+For high availability, you can use Multi-AZ deployments to have a standby database. This standby database is available only in case of disaster and cannot be used to perform queries.
+Security in Amazon RDS
+
+Security for your RDS database is managed through IAM. You can use username and password authentication to connect to your database, and for some engines, IAM authentication is also supported.
+
+Network security is enforced using security groups. Encryption at rest is handled by AWS Key Management Service (KMS), and intrinsic encryption is available using SSL and TLS protocols.
+Backup and Recovery
+
+Amazon RDS provides automated backups with a retention period of up to 35 days. Using automated backups, you can perform point-in-time restores to any moment within the retention window. This process creates a new database instance from the backup.
+
+For longer-term backup retention, manual database snapshots can be created and stored indefinitely.
+Maintenance and Updates
+
+Amazon RDS includes managed and scheduled maintenance that may cause downtime. This is necessary because the service provisions the database and underlying EC2 instances, which require updates for security patches and engine upgrades.
+Advanced Features
+
+IAM authentication is supported on RDS and can be enforced through the RDS Proxy. Additionally, RDS integrates with AWS Secrets Manager to securely manage database credentials.
+
+If you require access to the underlying instance for customization, the RDS Custom option is available for Oracle and SQL Server databases.
+Use Cases
+
+Amazon RDS is designed to store relational databases using RDBMS engines. It is suitable for online transaction processing (OLTP) workloads where SQL queries and transactions are required.
+
+This concludes the summary of Amazon RDS. I hope this review was helpful, and I look forward to seeing you in the next lecture.
+Key Takeaways
+
+    Amazon RDS is a managed service supporting multiple database engines including PostgreSQL, MySQL, Oracle, SQL Server, DB2, and MariaDB.
+    Provisioning involves selecting instance size and EBS volume type and size, with auto-scaling available for storage.
+    Read replicas enable scaling read operations, while Multi-AZ deployments provide high availability with standby databases.
+    Security is managed through IAM authentication, security groups, KMS encryption, and SSL/TLS.
+    Automated backups allow point-in-time recovery up to 35 days, with manual snapshots for long-term retention.
+    Maintenance is scheduled and managed by AWS, which may cause downtime during updates.
+    RDS Proxy integrates with IAM and Secrets Manager to manage database credentials securely.
+    RDS Custom allows access to underlying instances for Oracle and SQL Server databases for customization.
+    Amazon RDS is ideal for relational databases and online transaction processing (OLTP) workloads requiring SQL queries and transactions.
