@@ -1,0 +1,54 @@
+CloudTrail
+
+Overview of CloudTrail
+
+CloudTrail is a service that provides governance, compliance, and audit capabilities for your AWS accounts. It is enabled by default and records a history of all events and API calls made within your AWS accounts. These calls can originate from the AWS Management Console, SDKs, CLI, or other AWS services. All these logs are captured in CloudTrail.
+
+You can configure CloudTrail to send these logs to CloudWatch Logs or Amazon S3. Additionally, you can create a trail that applies to all AWS regions or a single region, allowing you to accumulate event history across regions into a specific S3 bucket.
+
+For example, if an EC2 instance was terminated and you want to find out who performed this action, CloudTrail will have the API call recorded. This allows you to investigate and understand who did what and when.
+CloudTrail as an Audit Tool
+
+CloudTrail acts as an intermediary that records actions performed via the SDK, CLI, console, IAM users, IAM roles, or other services. You can inspect and audit these actions in the CloudTrail console. If you want to retain events for more than 90 days, you can send them to CloudWatch Logs or an S3 bucket.
+Types of CloudTrail Events
+
+There are three kinds of events in CloudTrail:
+
+    Management Events
+    Data Events
+    CloudTrail Insights Events
+
+Management Events
+
+These represent operations performed on resources in your AWS accounts. For example, when someone configures security by calling the IAM AttachRolePolicy API, creates a subnet, or sets up logging, these actions appear in CloudTrail. By default, trails are configured to log Management Events.
+
+Management Events can be further divided into:
+
+    Read Events: These do not modify resources, such as listing all IAM users or EC2 instances.
+    Write Events: These modify resources, such as deleting a DynamoDB table. Write Events are generally more critical because they can cause damage to your AWS infrastructure, while Read Events provide informational access.
+
+Data Events
+
+Data Events are not logged by default because they represent high-volume operations. Examples include Amazon S3 object-level activities like GetObject, DeleteObject, and PutObject. These events can occur frequently on S3 buckets. Similar to Management Events, Data Events can be separated into Read Events (e.g., GetObject) and Write Events (e.g., DeleteObject, PutObject).
+AWS Lambda Function Execution Events
+
+CloudTrail also records AWS Lambda function execution activities. Whenever the Invoke API is called, CloudTrail logs this, providing insights into how often your Lambda functions are executed. These can also be high-volume events if your Lambda functions are invoked frequently.
+CloudTrail Insights Events
+
+CloudTrail Insights detects unusual activity by analyzing Management Events. It helps identify anomalies such as inaccurate resource provisioning, hitting service limits, bursts of IAM actions, or gaps in periodic maintenance. Insights must be enabled and incur additional costs.
+How CloudTrail Insights Works
+
+CloudTrail analyzes what normal management activities look like to create a baseline. It continuously monitors events and detects unusual patterns or changes. When an anomaly is detected, CloudTrail generates an Insights Event. These events appear in the CloudTrail console and can also be sent to Amazon EventBridge for automation, such as triggering email notifications.
+CloudTrail Event Retention
+
+By default, CloudTrail stores events for 90 days, after which they are deleted. To retain events longer, you must log them to an S3 bucket. You can then use Athena, a serverless query service, to analyze the stored events in S3. This allows you to audit events that occurred even a year ago or more.
+
+In summary, all Management Events, Data Events, and Insights Events are stored in CloudTrail for 90 days. For long-term retention, these events should be logged to S3 buckets and analyzed using Athena.
+
+I hope you found this lecture informative, and I look forward to seeing you in the next lecture.
+Key Takeaways
+
+    CloudTrail provides governance, compliance, and audit capabilities by recording API calls and events in AWS accounts.
+    There are three types of CloudTrail events: Management Events, Data Events, and CloudTrail Insights Events.
+    CloudTrail Insights detects unusual activity by analyzing management events and generates anomaly events for monitoring.
+    Event retention in CloudTrail is 90 days by default; longer retention requires logging events to Amazon S3 and analyzing them with Athena.
