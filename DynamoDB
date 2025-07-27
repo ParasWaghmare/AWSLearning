@@ -1,0 +1,57 @@
+DynamoDB
+Overview of Amazon DynamoDB
+
+Amazon DynamoDB is a proprietary technology from AWS. It is a managed, serverless, NoSQL database that provides millisecond latency out of the box.
+Capacity Modes
+
+DynamoDB offers two capacity modes to choose from:
+
+    Provisioned Capacity with optional auto scaling, which is ideal when you have a smooth workload that increases or decreases gradually over time.
+    On-Demand Capacity Mode, where you do not have to provision capacity. It scales automatically, making it suitable for unpredictable workloads or sudden steep spikes of demand on your database.
+
+Use Cases and Features
+
+DynamoDB can replace ElasticCache as a key-value store. For example, it is a great way to store session data for your website, combined with a TTL feature to expire a row after a specific amount of time.
+Availability and Transactions
+
+DynamoDB is highly available across multiple availability zones by default. Reads and writes are fully decoupled, and it supports transactions on top of DynamoDB tables.
+DynamoDB Accelerator (DAX)
+
+You can create a read cache out of the box that is fully compatible with DynamoDB, called a DAX cluster (DynamoDB Accelerator). The particularity of DAX is that it provides microsecond read latency.
+Security, Authentication, and Authorization
+
+All security, authentication, and authorization are managed through IAM (Identity and Access Management).
+Event Processing with DynamoDB Streams
+
+DynamoDB supports event processing capabilities through DynamoDB Streams, which stream all changes happening in your database. You can integrate this with AWS Lambda, allowing Lambda to be invoked for every single change in your DynamoDB table.
+Integration with Kinesis Data Streams
+
+Alternatively, instead of sending data to DynamoDB Streams, you can send data to Kinesis Data Streams. This allows you to use features like Kinesis Data Firehose or any integration leveraging Kinesis Data Streams. For example, Kinesis Data Streams supports longer-term retention of up to one year.
+Global Tables
+
+DynamoDB offers a global table feature that allows active-active replication across multiple regions. This means anyone can read and write from any region, enabling true multi-region active-active database operations.
+Backup Options
+
+There are two backup options:
+
+    Automated Backup: Enable point-in-time recovery to restore your table to any point within the last 35 days.
+    On-Demand Backups: For longer-term retention, you can enable on-demand backups, which also restore to a new DynamoDB table.
+
+Export and Import Features
+
+You can export your DynamoDB table to Amazon S3 without consuming any read capacity units within the point-in-time recovery window (up to 35 days). Similarly, you can import data from S3 into a new table without using any write capacity units.
+Use Cases Summary
+
+From an exam perspective, DynamoDB is a great choice when you need to rapidly evolve schema with a flexible database schema. It is suitable for serverless application development when your data consists of small documents, typically in the hundreds of kilobytes maximum, or when you want a distributed serverless cache.
+
+This concludes the summary of DynamoDB. Thank you for your attention, and I will see you in the next lecture.
+Key Takeaways
+
+    Amazon DynamoDB is a managed, serverless, NoSQL database offering millisecond latency.
+    It offers two capacity modes: provisioned capacity with optional auto scaling, and on-demand capacity for unpredictable workloads.
+    DynamoDB supports high availability across multiple availability zones and provides features like transactions, TTL for expiring data, and DAX for microsecond read latency.
+    Integration with AWS services includes IAM for security, DynamoDB Streams for event processing with Lambda, and Kinesis Data Streams for extended data retention and processing.
+    Global tables enable active-active replication across multiple regions.
+    Backup options include point-in-time recovery for up to 35 days and on-demand backups for longer retention.
+    DynamoDB supports exporting and importing tables to and from Amazon S3 without consuming read capacity units.
+    It is ideal for serverless applications requiring flexible schema and small document storage or as a distributed serverless cache.
