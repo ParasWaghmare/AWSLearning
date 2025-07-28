@@ -1,0 +1,74 @@
+CIDR, Private vs Public IP
+Introduction to CIDR
+
+Classless Inter-Domain Routing, abbreviated as CIDR, is a method for allocating IP addresses. Throughout this course, we will refer to it simply as CIDR. We have encountered CIDR before, especially when examining security group rules in AWS. For example, in security group rules, the source column often contains an IP address followed by a slash and a number, which is our first introduction to CIDRs.
+
+CIDRs help define IP address ranges. For instance, an IP address with a /32 suffix represents only one IP address. Conversely, 0.0.0.0/0 represents all IP addresses. There are many possibilities in between these extremes. For example, 192.168.0.0/26 represents a range of 64 IP addresses, as illustrated in the following slide.
+How CIDR Works
+
+CIDR consists of two components:
+
+    Base IP: This is an IP address contained within the range, usually the beginning of the range but not necessarily. Examples include 10.0.0.0 or 192.168.0.0.
+    Subnet Mask: This defines how many bits can change in the IP address. The subnet mask is denoted by a slash followed by a number, such as /0, /24, or /32.
+
+The subnet mask can take two forms. For example:
+
+    /8 is equivalent to a subnet mask of 255.0.0.0
+    /16 is equivalent to 255.255.0.0
+
+However, the most common form used in this course and in AWS is the slash notation (e.g., /8, /16).
+Detailed Look at Subnet Masks
+
+The subnet mask defines which values can change from the base IP. For example:
+
+    An IP address with /32 allows for only one IP address, calculated as 2020.
+    /31 allows for two IP addresses, such as 192.168.0.0 and 192.168.0.1.
+    /30 allows for 4 IP addresses, ranging from .0 to .3.
+    /29 allows for 8 IP addresses, from .0 to .7.
+    /28 allows for 16 IP addresses, from .0 to .15.
+
+This pattern continues exponentially, as shown in the table below:
+
+| Subnet Mask | Number of IPs | IP Range Example | |-------------|---------------|------------------| | /24 | 256 | .0 to .255 | | /16 | 65,536 | Last two octets change | | /0 | All IPs | Entire IPv4 space |
+
+Remember, an IP address consists of 4 octets. The subnet mask determines how many of these octets can vary:
+
+    /32 means no octets can change.
+    /24 means the last octet can change.
+    /16 means the last two octets can change.
+    /8 means the last three octets can change.
+    /0 means all octets can change.
+
+Exercise: Understanding CIDR Notation
+
+Let's apply what we've learned with a few examples:
+
+    192.168.0.0/24: The /24 means the last octet can change, so there are 256 IP addresses ranging from 192.168.0.0 to 192.168.0.255.
+    192.168.0.0/16: The /16 means the last two octets can change, resulting in 65,536 IP addresses.
+    134.56.78.123/32: The /32 means only one IP address, so just 134.56.78.123.
+    0.0.0.0/0: This represents the entire IPv4 address space.
+
+If you need assistance calculating IP ranges or CIDRs, there are handy websites available that can convert CIDR notation to IP ranges and vice versa.
+Using Online Tools for CIDR Calculations
+
+For example, entering 10.0.0.0/16 into such a tool will display the first and last IP addresses in the range, the total number of IPs included, and other useful information. Similarly, entering an IP range can help determine the corresponding CIDR notation. These tools are very helpful when working with networking.
+Public vs Private IP Addresses
+
+The Internet Assigned Numbers Authority (IANA) has designated certain blocks of IPv4 addresses for private LAN networks, which are local networks, and others for public internet addresses.
+
+The private IP address ranges include:
+
+    10.0.0.0/8: A large private IP range commonly used in big networks.
+    172.16.0.0/12: Another private IP range.
+    192.168.0.0/16: Typically used for home networks; devices connected to a home router often have IPs starting with 192.
+
+All other IP addresses outside these ranges are public IP addresses used on the internet.
+Summary
+
+These are the basics of IPv4 addressing and CIDR notation. Understanding these concepts is essential for networking and configuring security groups in cloud environments like AWS. I hope this lecture has been helpful, and I look forward to seeing you in the next lecture.
+Key Takeaways
+
+    CIDR (Classless Inter-Domain Routing) is a method for allocating IP addresses using a base IP and subnet mask.
+    The subnet mask, denoted by /n, defines how many bits can change in the IP address, determining the size of the IP range.
+    Private IP address ranges are reserved for local networks and include 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16.
+    Public IP addresses are all other IPs outside the private ranges and are used on the internet.
