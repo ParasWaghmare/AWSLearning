@@ -1,0 +1,32 @@
+VPC Overview
+Introduction to VPC
+
+A VPC stands for Virtual Private Cloud.
+
+You can have multiple VPCs within a single AWS region. The default maximum is five VPCs per region; however, this is a soft limit and can be increased upon request.
+
+Each VPC can be assigned up to five CIDR blocks. The size of each CIDR block must be between a minimum of /28 and a maximum of /16. A /28 CIDR block corresponds to at least 16 IP addresses, while a /16 CIDR block corresponds to a maximum of 65,536 IP addresses.
+
+Since a VPC is a private resource, only private IPv4 address ranges are allowed. The private IPv4 ranges include:
+
+    10.0.0.0/8
+    172.16.0.0/12
+    192.168.0.0/16
+
+Choosing CIDR Ranges for Your VPC
+
+When selecting the CIDR range for your VPC, you can assign any private IP range you prefer. However, it is crucial to ensure that your VPC's CIDR block does not overlap with other VPCs, networks, or corporate networks you may connect to in the future.
+
+The reason for avoiding overlapping CIDR ranges is to enable seamless connectivity between networks. Overlapping IP address ranges can cause routing conflicts and connectivity issues.
+Summary
+
+By the end of this hands-on session, we will have created a simple VPC within an AWS region.
+
+Let's get started.
+Key Takeaways
+
+    A Virtual Private Cloud (VPC) is a private network resource within AWS.
+    You can create multiple VPCs per AWS region, with a default soft limit of five.
+    Each VPC can have up to five CIDR blocks, with sizes ranging from /28 (16 IPs) to /16 (65,536 IPs).
+    Only private IPv4 address ranges are allowed for VPCs.
+    It is important to avoid overlapping CIDR ranges between VPCs and other networks to enable connectivity.
