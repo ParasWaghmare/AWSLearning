@@ -1,0 +1,30 @@
+Subnet Overview
+
+Introduction to Subnets in a VPC
+
+The next step is to add subnets into our Virtual Private Cloud (VPC). We will create two subnets: one public subnet and one private subnet. Both subnets will be within a single availability zone. We will also explore what makes a subnet public or private.
+What is a Subnet?
+
+A subnet is a sub-range of IPv4 addresses within your VPC. AWS reserves five IP addresses in each subnet. Specifically, the first four IP addresses and the last one are reserved. These reserved IP addresses are not available for use and cannot be assigned to an EC2 instance.
+
+For example, if you have a CIDR block of 10.0.0.0/24, there are several reserved IP addresses:
+
+    10.0.0.0/24 - The first IP address, which is the network address.
+    10.0.0.1/24 - The second IP address (.1), reserved by AWS for the VPC router.
+    10.0.0.2/24 - The third IP address (.2), reserved by AWS for mapping to Amazon provided DNS.
+    10.0.0.3/24 - The fourth IP address (.3), which is currently not used but reserved for future use.
+    10.0.0.255/24 - The last IP address (.255), which is the network broadcast address.
+
+Since AWS does not support broadcast in a VPC, this last address is reserved and cannot be used. For future use if that supports.
+Exam Tip: Choosing Subnet Size
+
+If you need 29 IP addresses in a subnet for EC2 instances, you cannot choose a subnet with a /27 mask. A /27 subnet contains 32 IP addresses, but after removing the five reserved IP addresses, only 27 usable IP addresses remain, which is less than the 29 needed.
+
+Instead, you should choose a subnet size of /26, which provides 64 IP addresses. After subtracting the five reserved IP addresses, you have 59 usable IP addresses, which is greater than the 29 required.
+
+Key Takeaways
+
+    A subnet is a sub-range of IPv4 addresses within a VPC.
+    AWS reserves five IP addresses in each subnet: the first four and the last one.
+    Reserved IP addresses include network address, VPC router, Amazon DNS, future use, and broadcast address.
+    When selecting subnet size, account for reserved IPs to ensure enough usable addresses for EC2 instances.
