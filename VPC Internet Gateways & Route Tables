@@ -1,0 +1,24 @@
+Internet Gateways & Route Tables
+Introduction to Internet Access in Subnets
+
+Currently, our subnets lack internet access, and we have yet to define what constitutes a Public Subnet versus a Private Subnet. To enable internet connectivity for resources within a Virtual Private Cloud (VPC), such as EC2 instances and Lambda functions, we utilize an Internet Gateway.
+Internet Gateway Overview
+
+An Internet Gateway is a horizontally scalable, highly available, and redundant managed resource. It must be created separately from the VPC itself. Importantly, one VPC can only be attached to a single Internet Gateway, and each Internet Gateway can only be attached to one VPC.
+Internet Gateway Does Not Provide Internet Access Alone
+
+Internet Gateways on their own do not grant internet access. To enable connectivity, it is necessary to modify the Route Tables associated with the subnets. This configuration ensures that traffic is properly routed through the Internet Gateway to the internet.
+Configuring Internet Access for Subnets
+
+Consider a VPC with two subnets and one EC2 instance. For simplicity, other subnets are not shown in the diagram. We will create an Internet Gateway within this VPC; however, this alone will not provide internet access to the subnets.
+
+To enable internet connectivity, we must also edit the Route Tables. Specifically, we will create a Public EC2 instance in the Public Subnet and configure the Route Table so that the EC2 instance can route traffic through the router to the Internet Gateway, which then connects to the internet.
+Next Steps
+
+
+Key Takeaways
+
+    An Internet Gateway enables resources within a VPC to connect to the internet.
+    Internet Gateways are horizontally scalable, highly available, and redundant managed resources.
+    Each VPC can be attached to only one Internet Gateway, and vice versa.
+    Internet access requires both an Internet Gateway and appropriate Route Table configurations.
